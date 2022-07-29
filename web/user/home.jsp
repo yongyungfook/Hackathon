@@ -73,7 +73,39 @@
                                     <!-- Product name-->
                                     <h5 class="fw-bolder"></h5>
                                     <!-- Product price-->
-                                    RM 
+                                    <form method="get" action="">
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                        <option selected>From?</option>
+                                        <option value="Tuaran">Tuaran</option>
+                                        <option value="Tamparuli">Tamparuli</option>
+                                        <option value="Telipok">Telipok</option>
+                                        <option value="Menggatal">Menggatal</option>
+                                        <option value="Inanam">Inanam</option>
+                                        <option value="Likas">Likas</option>
+                                        <option value="Kota Kinabalu">Kota Kinabalu</option>
+                                    </select>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                        <option selected>To?</option>
+                                        <option value="Tuaran">Tuaran</option>
+                                        <option value="Tamparuli">Tamparuli</option>
+                                        <option value="Telipok">Telipok</option>
+                                        <option value="Menggatal">Menggatal</option>
+                                        <option value="Inanam">Inanam</option>
+                                        <option value="Likas">Likas</option>
+                                        <option value="Kota Kinabalu">Kota Kinabalu</option>
+                                    </select>
+                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                        <option selected>When?</option>
+                                        <option value="Tuaran">Tuaran</option>
+                                        <option value="Tamparuli">Tamparuli</option>
+                                        <option value="Telipok">Telipok</option>
+                                        <option value="Menggatal">Menggatal</option>
+                                        <option value="Inanam">Inanam</option>
+                                        <option value="Likas">Likas</option>
+                                        <option value="Kota Kinabalu">Kota Kinabalu</option>
+                                    </select>
+                                    <input type="submit" value="Check" class="form-control">
+                                    </form>
                                 </div>
                             </div>
                             <!-- Product actions-->
