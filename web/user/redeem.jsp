@@ -27,10 +27,7 @@
             int count = 0;
             ResultSet rs = null, rs2 = null, rs3 = null;
             HttpSession httpSession = request.getSession();
-            if((String)(httpSession.getAttribute("username")) == null ) {
-               response.sendRedirect("../login.jsp?error=No permission to view the page");
-               return;
-            } 
+
             String username = (String) (httpSession.getAttribute("username"));
             String photo = (String) (httpSession.getAttribute("photo"));
             try {
@@ -84,7 +81,7 @@
             </div>
         </nav>
         <!-- Header-->
-        <header class="bg-dark py-5">
+        <header class="bg-info py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">Shop with Game Vault</h1>
@@ -166,7 +163,7 @@
             </div>
         </section>
         <!-- Footer-->
-        <footer class="py-5 bg-dark">
+        <footer class="py-5 bg-info">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Game Vault 2022</p></div>
         </footer>
         <!-- Bootstrap core JS-->
