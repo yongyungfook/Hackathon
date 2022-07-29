@@ -5,7 +5,7 @@
         <%@ page import="javax.servlet.*" %>
         <%@ page import="javax.servlet.http.*" %>
         <%@ page import="java.sql.*" %>
-        <%@ page import="java.util.*" %>
+        <%@ page import="java.util.*" %><%@ page import="java.time.*" %>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
@@ -19,7 +19,14 @@
 
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <% String from = request.getParameter("from");
+        String to = request.getParameter("to");
+        String time = request.getParameter("time");
+        if(to == from) {
+            response.sendRedirect("home.jsp?error=Invalid input!");
+        }
         
+        %>
     </head>
     <body>
         <!-- Navigation-->
@@ -94,10 +101,7 @@
                                         <option value="Likas">Likas</option>
                                         <option value="Kota Kinabalu">Kota Kinabalu</option>
                                     </select>
-                                   <input type="time" name="time" class="form-control" min="05:00" max="21:00" required><br/>
-                                   <% if(request.getParameter("error") != null) { %>
-                                   <p style="color: red;">You cannot choose two same locations!</p>
-                                   <%}%>
+                                   <input type="time" class="form-control" min="05:00" max="21:00"><br/>
                                     <input type="submit" value="Check" class="form-control">
                                     </form>
                                 </div>
