@@ -58,7 +58,7 @@ public class signIn extends HttpServlet {
                         httpSession.setAttribute("photo", base64Image);
                     }
                     
-                    response.sendRedirect("customer/home.jsp"); 
+                    response.sendRedirect("user/home.jsp"); 
                 }   
                 
                 else if(rs.getString("type").charAt(0) == 'D' && rs.getString("status").charAt(0) == 'P'){
