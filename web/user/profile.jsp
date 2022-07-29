@@ -87,8 +87,8 @@
         <header class="bg-info py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Profile</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Your General Overview</p>
+                    <h1 class="display-4 fw-bolder">Check for bus schedule here!</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Let's support our public transport for the sake of our environment!</p>
                 </div>
             </div>
         </header>

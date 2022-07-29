@@ -49,12 +49,12 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="index.jsp">Game Vault </a>
+                <a class="navbar-brand" href="index.jsp">Bussing</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.jsp">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="order.jsp">Order</a></li>
+                        <li class="nav-item"><a class="nav-link" href="redeem.jsp">Redeem</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -69,14 +69,6 @@
                     <input type="text" name="id" placeholder="Search in Game Vault">
                     <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
-                    <a href="cart.jsp">
-
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill"><%= count%></span>
-                        </button>
-                    </a>
                 </div>
             </div>
         </nav>
@@ -84,8 +76,8 @@
         <header class="bg-info py-5">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
-                    <h1 class="display-4 fw-bolder">Shop with Game Vault</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Design and built for gamers</p>
+                    <h1 class="display-4 fw-bolder">Check for bus schedule here!</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Let's support our public transport for the sake of our environment!</p>
                 </div>
             </div>
         </header>
@@ -164,7 +156,7 @@
         </section>
         <!-- Footer-->
         <footer class="py-5 bg-info">
-            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Game Vault 2022</p></div>
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Bussing 2022</p></div>
         </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
