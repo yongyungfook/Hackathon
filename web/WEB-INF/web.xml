@@ -8,6 +8,28 @@
         <servlet-name>signIn</servlet-name>
         <servlet-class>Servlet.signIn</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>signUp</servlet-name>
+        <servlet-class>Servlet.signUp</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>20971520</max-request-size>
+            <file-size-threshold>5242880</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>signUpDriver</servlet-name>
+        <servlet-class>Servlet.signUpDriver</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size>
+            <max-request-size>20971520</max-request-size>
+            <file-size-threshold>5242880</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>Servlet.logout</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/Servlet</url-pattern>
@@ -15,6 +37,18 @@
     <servlet-mapping>
         <servlet-name>signIn</servlet-name>
         <url-pattern>/signIn</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>signUp</servlet-name>
+        <url-pattern>/signUp</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>signUpDriver</servlet-name>
+        <url-pattern>/signUpDriver</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

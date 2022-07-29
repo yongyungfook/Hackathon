@@ -24,7 +24,7 @@ public class signIn extends HttpServlet {
 
             //creating connection with the database
             Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/hackathondb", "nbuser", "nbuser");
-            PreparedStatement ps = con.prepareStatement("select * from account where accountid=? and password=?");
+            PreparedStatement ps = con.prepareStatement("select * from account where userid=? and password=?");
             ps.setString(1, accountid);
             ps.setString(2, password);
             rs = ps.executeQuery();
@@ -34,10 +34,9 @@ public class signIn extends HttpServlet {
             if (rs.next()) { 
                 if(rs.getString("type").charAt(0) == 'U' && rs.getString("status").charAt(0) != 'B') {
                     HttpSession httpSession = request.getSession();
-                    httpSession.setAttribute("accountid", accountid);
+                    httpSession.setAttribute("userid", accountid);
                     httpSession.setAttribute("name", rs.getString("name"));
                     httpSession.setAttribute("email", rs.getString("email"));
-                    httpSession.setAttribute("area", rs.getString("area"));
                      
                     photo = rs.getBlob("photo");
 
@@ -59,40 +58,29 @@ public class signIn extends HttpServlet {
                         httpSession.setAttribute("photo", base64Image);
                     }
                     
-                    response.sendRedirect("main/customer/home.jsp"); 
+                    response.sendRedirect("customer/home.jsp"); 
                 }   
                 
-                else if(rs.getString("type").charAt(0) == 'V' && rs.getString("status").charAt(0) == 'P'){
-                    response.sendRedirect("main/login.jsp?register=Application Pending!");
+                else if(rs.getString("type").charAt(0) == 'D' && rs.getString("status").charAt(0) == 'P'){
+                    response.sendRedirect("login.jsp?register=Application Pending!");
                 }
                 
-                else if(rs.getString("type").charAt(0) == 'V' && rs.getString("status").charAt(0) != 'B') {
+                else if(rs.getString("type").charAt(0) == 'D' && rs.getString("status").charAt(0) != 'B') {
                     HttpSession httpSession = request.getSession();
-                    httpSession.setAttribute("accountid", accountid);
+                    httpSession.setAttribute("userid", accountid);
                     httpSession.setAttribute("name", rs.getString("name"));
                     httpSession.setAttribute("email", rs.getString("email"));
-                    httpSession.setAttribute("area", rs.getString("area"));
                     
-                    response.sendRedirect("main/vendor/home.jsp"); 
-                }
-                
-                else if(rs.getString("type").charAt(0) == 'A') {
-                    HttpSession httpSession = request.getSession();
-                    httpSession.setAttribute("accountid", accountid);
-                    httpSession.setAttribute("name", rs.getString("name"));
-                    httpSession.setAttribute("email", rs.getString("email"));
-                    httpSession.setAttribute("area", rs.getString("area"));
-                    
-                    response.sendRedirect("main/admin/home.jsp"); 
+                    response.sendRedirect("driver/home.jsp"); 
                 }
                 
                 else {
-                    response.sendRedirect("main/login.jsp?error=Account banned!");
+                    response.sendRedirect("login.jsp?error=Account banned!");
                 }
 
             } else {
                 out.println("Username or Password incorrect");
-                response.sendRedirect("main/login.jsp?error=Invalid username or password!");
+                response.sendRedirect("login.jsp?error=Invalid username or password!");
             }
 
         } catch (Exception e) {
