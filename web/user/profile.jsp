@@ -47,8 +47,12 @@
             PreparedStatement ps2 = con.prepareStatement("select * from account where userid = ?");
             ps2.setString(1, username);
             
+            PreparedStatement ps3 = con.prepareStatement("select * from redemption, voucher where userid = ?");
+            ps3.setString(1, username);
+            
    
             rs2 = ps2.executeQuery();
+            rs3 = ps3.executeQuery();
  
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,7 +103,7 @@
                 <% if (rs2.next()) { %>
                 <table class="table  table-bordered table-striped mb-4">
                     <tr><td colspan="2" align="center" ><img src="data:image/jpg;base64,<%= photo %>" width="240" height="300"/></td></tr> 
-                <tr><td>ID: : </td><td><%= rs2.getString("userid") %></td></tr> 
+                <tr><td>ID: </td><td><%= rs2.getString("userid") %></td></tr> 
                     <tr><td>Username : </td><td><%= rs2.getString("name") %></td></tr> 
                 <tr><td>Registration Date :</td><td> <%= rs2.getString("regDate") %> </td></tr>
                 <tr><td>Email : </td><td><%= rs2.getString("email") %> </td></tr>
@@ -107,6 +111,28 @@
                 <tr><td align="center" colspan="2"><div class="text-left"><a class="btn btn-outline-dark mt-auto" href="forms/editProfile.jsp">Edit profile</a></div></td></tr>
                 </table>
                 <% } %>
+                
+                <br>
+                 <div class='container-fluid'>
+            <table class="table  table-bordered table-striped mb-4">
+            <tr>
+                <td> Redemption Time </td>
+                <td> Voucher Name </td>
+                <td> Points Spent </td>
+                <td> Voucher Code </td>
+            </tr>
+            
+            <%while (rs3.next()) { %>
+            <tr>
+                <td><%= rs3.getString("redeemtime") %></td>
+                <td><%= rs3.getString("vouchername") %></td>
+                <td><%= rs3.getString("voucherpoint") %></td>
+                <td><%= rs3.getString("code") %></td>
+            </tr>
+            <% } %>
+            
+
+            </table>
         </div>
     
     <!-- Footer-->
