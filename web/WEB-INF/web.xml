@@ -30,6 +30,10 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>Servlet.logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>redemption</servlet-name>
+        <servlet-class>Servlet.redemption</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Servlet</servlet-name>
         <url-pattern>/Servlet</url-pattern>
@@ -49,6 +53,10 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>redemption</servlet-name>
+        <url-pattern>/redemption</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

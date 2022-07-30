@@ -24,28 +24,31 @@
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            int count = 0;
+            int score = 0, count = 0;
             ResultSet rs = null, rs2 = null, rs3 = null;
             HttpSession httpSession = request.getSession();
 
-            String username = (String) (httpSession.getAttribute("username"));
+            String username = (String) (httpSession.getAttribute("userid"));
             String photo = (String) (httpSession.getAttribute("photo"));
             try {
-                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/assignmentdb", "nbuser", "nbuser");
-                PreparedStatement ps = con.prepareStatement("select * from product ORDER BY prod_category");
-                PreparedStatement ps2 = con.prepareStatement("select * from cart_item where id = ?");
-                ps2.setString(1, username);
-
+                
+                Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/hackathondb", "nbuser", "nbuser");
+                PreparedStatement ps = con.prepareStatement("select * from account where userid = ?");
+                PreparedStatement ps2 = con.prepareStatement("select * from voucher");                  
+                ps.setString(1, username);
                 rs = ps.executeQuery();
+                
                 rs2 = ps2.executeQuery();
+                
+                if(rs.next()) {
+                    score = rs.getInt("loyaltyscore");
+                }
                 String base64Image = "";
 
-                while (rs2.next()) {
-                    count++;
-                }
         %>
     </head>
     <body>
+        
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -53,8 +56,8 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.jsp">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="redeem.jsp">Redeem</a></li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="home.jsp">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="redeem.jsp">Redeem</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -84,12 +87,14 @@
         <!-- Section-->
 
         <section class="py-5">
+            <h1 class="display-3 border-bottom-info">Your points : <%= score %></h1>
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <%
-                        while (rs.next()) {
+                        while (rs2.next()) {
+                            count++;
                             Blob pic;
-                            pic = rs.getBlob("prod_photo");
+                            pic = rs2.getBlob("photo");
 
                             if (pic != null) {
 
@@ -107,36 +112,30 @@
                                 base64Image = Base64.getEncoder().encodeToString(imageBytes);
                             }
                     %>
+                    
                     <div class="col mb-5">
+                        
                         <div class="card h-100">
                             <!-- Product image-->
                             <img class="card-img-top" width="205.99px" height="205.99px" src="data:image/jpg;base64,<%= base64Image%>" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
+                                    
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder"><%= rs.getString("PROD_NAME")%></h5>
+                                    <h5 class="fw-bolder"><%= rs2.getString("VOUCHERNAME")%></h5>
                                     <!-- Product price-->
-                                    RM <%= String.format("%.2f", rs.getDouble("PROD_PRICE"))%>
+                                    <%= String.format("%d points", rs2.getInt("VOUCHERPOINT"))%><br/>
+                                    <%= rs2.getString("VOUCHERDESC") %>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="productDetails.jsp?prod=<%= rs.getString("PROD_ID")%>">View details</a></div><br>
-                                <%
-                                    rs3 = ps2.executeQuery();
-                                    int count2 = 0;
-                                    while (rs3.next()) {
-                                        if (rs3.getString("PROD_ID").equals(rs.getString("PROD_ID")) == true) {
-                                            count2++;
-                                        }
-                                    }
-                                    if (count2 > 0) {
-                                %><div class="text-center"><a class="btn btn-outline-dark mt-auto" disabled>Already in cart</a></div><%
-                                    } else if (rs.getInt("PROD_QUANTITY") <= 0) {
-                                %><div class="text-center"><a class="btn btn-outline-dark mt-auto" disabled>Sold Out</a></div><%
-                                    } else {
-                                %> <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="http://localhost:8080/E-commerce-Assignment-GUI/cart?id=<%= rs.getString("PROD_ID")%>">Add to cart</a></div> <%
+                                <%                                 
+                                    if (rs2.getInt("VOUCHERPOINT") > score) {
+                                %><div class="text-center"><a class="btn btn-outline-dark mt-auto" disabled>Not enough score</a></div><%
+                                    }  else {
+                                %> <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="http://localhost:8080/Hackathon/redemption?id=<%= rs2.getString("VOUCHERID")%>">Redeem</a></div> <%
                                         }
                                 %>
 
@@ -148,9 +147,10 @@
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    %>
 
-
+                        if (count == 0) {%>
+                        <h1>No voucher available, please check back later.</h1>
+                        <% } %>
                 </div>
             </div>
         </section>
