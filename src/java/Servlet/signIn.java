@@ -72,6 +72,15 @@ public class signIn extends HttpServlet {
                     httpSession.setAttribute("email", rs.getString("email"));
                     
                     response.sendRedirect("driver/home.jsp"); 
+                } 
+                
+                else if(rs.getString("type").charAt(0) == 'A') {
+                    HttpSession httpSession = request.getSession();
+                    httpSession.setAttribute("userid", accountid);
+                    httpSession.setAttribute("name", rs.getString("name"));
+                    httpSession.setAttribute("email", rs.getString("email"));
+                    
+                    response.sendRedirect("admin/home.jsp");
                 }
                 
                 else {
