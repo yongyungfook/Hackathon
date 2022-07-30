@@ -10,7 +10,7 @@ import javax.servlet.http.*;
 public class redemption extends HttpServlet {
 
     private Connection conn;
-    private PreparedStatement pstmt;
+    private PreparedStatement pstmt, pstmt2, pstmt3;
     private String host = "jdbc:derby://localhost:1527/hackathondb";
     private String user = "nbuser";
     private String password = "nbuser";
@@ -32,9 +32,10 @@ public class redemption extends HttpServlet {
 
         String username = (String) (httpSession.getAttribute("userid"));
         int id = Integer.parseInt(request.getParameter("id"));
+        int point = Integer.parseInt(request.getParameter("point"));
         
         try {
-            redemption(username, id);
+            redemption(username, id, point);
             response.sendRedirect("user/profile.jsp");
         } catch (Exception ex) {
             response.sendRedirect("user/redeem.jsp?error=SQL error!");
@@ -48,15 +49,22 @@ private void initializeJdbc() {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             conn = DriverManager.getConnection(host, user, password);
             pstmt = conn.prepareStatement("INSERT INTO REDEMPTION(USERID, VOUCHERID) VALUES(?, ?)");
+            pstmt2 = conn.prepareStatement("UPDATE ACCOUNT SET LOYALTYSCORE = ? WHERE USERID = ?");
+            pstmt3 = conn.prepareStatement("UPDATE VOUCHER SET STATUS = 'C' WHERE VOUCHERID = ?");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private void redemption(String username, int id) throws SQLException {
+    private void redemption(String username, int id, int point) throws SQLException {
         pstmt.setString(1, username);
         pstmt.setInt(2, id);
         pstmt.executeUpdate();
+        pstmt2.setInt(1, point);
+        pstmt2.setString(2, username);
+        pstmt2.executeUpdate();
+        pstmt3.setInt(1, id);
+        pstmt3.executeUpdate();
     }
 
     public boolean equals(Object obj) {

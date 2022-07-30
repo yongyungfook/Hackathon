@@ -34,7 +34,7 @@
                 
                 Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/hackathondb", "nbuser", "nbuser");
                 PreparedStatement ps = con.prepareStatement("select * from account where userid = ?");
-                PreparedStatement ps2 = con.prepareStatement("select * from voucher");                  
+                PreparedStatement ps2 = con.prepareStatement("select * from voucher where status != 'C'");                  
                 ps.setString(1, username);
                 rs = ps.executeQuery();
                 
@@ -135,7 +135,7 @@
                                     if (rs2.getInt("VOUCHERPOINT") > score) {
                                 %><div class="text-center"><a class="btn btn-outline-dark mt-auto" disabled>Not enough score</a></div><%
                                     }  else {
-                                %> <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="http://localhost:8080/Hackathon/redemption?id=<%= rs2.getString("VOUCHERID")%>">Redeem</a></div> <%
+                                %> <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="http://localhost:8080/Hackathon/redemption?id=<%= rs2.getString("VOUCHERID")%>&point=<%=rs2.getInt("VOUCHERPOINT") - score%>">Redeem</a></div> <%
                                         }
                                 %>
 

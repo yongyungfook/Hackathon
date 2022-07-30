@@ -134,6 +134,7 @@
 
             </table>
         </div>
+        </div>
     
     <!-- Footer-->
         <footer class="py-5 bg-info">
