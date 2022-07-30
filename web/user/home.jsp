@@ -56,12 +56,7 @@
                     <h1 class="display-4 fw-bolder">Check for    bus schedule here!</h1>
                     <p class="lead fw-normal text-white-50 mb-0">Let's support our public transport for the sake of our environment!</p>
                 </div>
-            </div>
-        </header>
-        <!-- Section-->
-
-        <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
+                <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     
                     <div class="col mb-5">
@@ -75,7 +70,7 @@
                                     <!-- Product price-->
                                     <form method="get" action="schedule.jsp">
                                         <label for="from" class="mb-3">From?</label>
-                                    <select id="from" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">        
+                                    <select id="from" name="from" class="form-select form-select-lg mb-3">        
                                         <option value="Tuaran">Tuaran</option>
                                         <option value="Tamparuli">Tamparuli</option>
                                         <option value="Telipok">Telipok</option>
@@ -85,7 +80,7 @@
                                         <option value="Kota Kinabalu">Kota Kinabalu</option>
                                     </select>
                                     <label class="mb-3" for="to">To?</label>
-                                    <select id="to" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                                    <select id="to" name="to" class="form-select form-select-lg mb-3">
                                         <option value="Tuaran">Tuaran</option>
                                         <option value="Tamparuli">Tamparuli</option>
                                         <option value="Telipok">Telipok</option>
@@ -98,7 +93,7 @@
                                    <% if(request.getParameter("error") != null) { %>
                                    <p style="color: red;">You cannot choose two same locations!</p>
                                    <%}%>
-                                    <input type="submit" value="Check" class="form-control">
+                                    <input class="btn btn-outline-dark mt-auto" type="submit" value="Check" class="form-control">
                                     </form>
                                 </div>
                             </div>
@@ -114,7 +109,9 @@
 
                 </div>
             </div>
-        </section>
+            </div>
+        </header>
+        <!-- Section-->  
         <!-- Footer-->
         <footer class="py-5 bg-info">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Bussing 2022</p></div>

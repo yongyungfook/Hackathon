@@ -47,7 +47,7 @@
             PreparedStatement ps2 = con.prepareStatement("select * from account where userid = ?");
             ps2.setString(1, username);
             
-            PreparedStatement ps3 = con.prepareStatement("select * from redemption, voucher where userid = ?");
+            PreparedStatement ps3 = con.prepareStatement("select * from redemption, voucher where userid = ? order by redeemtime desc");
             ps3.setString(1, username);
             
    
@@ -67,10 +67,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="home.jsp">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="home.jsp">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="redeem.jsp">Redeem</a></li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+                            <a class="nav-link dropdown-toggle active" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="profile.jsp">Profile</a></li>
                                 <li><hr class="dropdown-divider" /></li>
@@ -113,7 +113,6 @@
                 <% } %>
                 
                 <br>
-                 <div class='container-fluid'>
             <table class="table  table-bordered table-striped mb-4">
             <tr>
                 <td> Redemption Time </td>
@@ -133,7 +132,7 @@
             
 
             </table>
-        </div>
+
         </div>
     
     <!-- Footer-->
