@@ -26,6 +26,31 @@
             response.sendRedirect("home.jsp?error=Invalid input!");
         }
         
+        Timestamp timestamp = Timestamp.valueOf(time);
+        
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        ResultSet rs = null;
+        HttpSession httpSession = request.getSession();
+
+        
+        String username = (String)(httpSession.getAttribute("userid"));
+        String photo = (String)(httpSession.getAttribute("photo"));
+        
+        try {
+            Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/hackathondb", "nbuser", "nbuser");
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM schedule WHERE {fn TIMESTAMPDIFF( SQL_TSI_MINUTE, STARTTIME, ?)} <= 15");
+            ps.setString(1, time);
+
+ 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    %>
+        
         %>
     </head>
     <body>
@@ -36,7 +61,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.jsp">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="home.jsp">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="redeem.jsp">Redeem</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
@@ -68,54 +93,69 @@
         <!-- Section-->
 
         <section class="py-5">
-            <div class="container px-4 px-lg-5 mt-5">
+                <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <%
+                        while (rs2.next()) {
+                            count++;
+                            Blob pic;
+                            pic = rs2.getBlob("photo");
+
+                            if (pic != null) {
+
+                                InputStream inputStream = pic.getBinaryStream();
+
+                                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                byte[] buffer = new byte[4096];
+                                int bytesRead = -1;
+
+                                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                                    outputStream.write(buffer, 0, bytesRead);
+                                }
+
+                                byte[] imageBytes = outputStream.toByteArray();
+                                base64Image = Base64.getEncoder().encodeToString(imageBytes);
+                            }
+                    %>
                     
                     <div class="col mb-5">
+                        
                         <div class="card h-100">
                             <!-- Product image-->
+                            <img class="card-img-top float-left" width="205.99px" height="205.99px" src="data:image/jpg;base64,<%= base64Image%>" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">
+                                    
                                     <!-- Product name-->
-                                    <h5 class="fw-bolder"></h5>
+                                    <h5 class="fw-bolder"><%= rs2.getString("VOUCHERNAME")%></h5>
                                     <!-- Product price-->
-                                    <form method="get" action="schedule.jsp">
-                                        <label for="from" class="mb-3">From?</label>
-                                    <select id="from" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">        
-                                        <option value="Tuaran">Tuaran</option>
-                                        <option value="Tamparuli">Tamparuli</option>
-                                        <option value="Telipok">Telipok</option>
-                                        <option value="Menggatal">Menggatal</option>
-                                        <option value="Inanam">Inanam</option>
-                                        <option value="Likas">Likas</option>
-                                        <option value="Kota Kinabalu">Kota Kinabalu</option>
-                                    </select>
-                                    <label class="mb-3" for="to">To?</label>
-                                    <select id="to" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                        <option value="Tuaran">Tuaran</option>
-                                        <option value="Tamparuli">Tamparuli</option>
-                                        <option value="Telipok">Telipok</option>
-                                        <option value="Menggatal">Menggatal</option>
-                                        <option value="Inanam">Inanam</option>
-                                        <option value="Likas">Likas</option>
-                                        <option value="Kota Kinabalu">Kota Kinabalu</option>
-                                    </select>
-                                   <input type="time" class="form-control" min="05:00" max="21:00"><br/>
-                                    <input type="submit" value="Check" class="form-control">
-                                    </form>
+                                    <%= String.format("%d points", rs2.getInt("VOUCHERPOINT"))%><br/>
+                                    <%= rs2.getString("VOUCHERDESC") %>
                                 </div>
                             </div>
                             <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                
+                                <%                                 
+                                    if (rs2.getInt("VOUCHERPOINT") > score) {
+                                %><div class="text-center"><a class="btn btn-outline-dark mt-auto" disabled>Not enough score</a></div><%
+                                    }  else {
+                                %> <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="http://localhost:8080/Hackathon/redemption?id=<%= rs2.getString("VOUCHERID")%>&point=<%=rs2.getInt("VOUCHERPOINT") - score%>">Redeem</a></div> <%
+                                        }
+                                %>
 
                             </div>
                         </div>
                     </div>
+                    <%
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-
-
+                        if (count == 0) {%>
+                        <h1>No voucher available, please check back later.</h1>
+                        <% } %>
                 </div>
             </div>
         </section>

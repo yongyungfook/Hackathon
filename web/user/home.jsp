@@ -1,3 +1,5 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="java.time.LocalTime"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -29,7 +31,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.jsp">Home</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="home.jsp">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="redeem.jsp">Redeem</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
@@ -89,7 +91,7 @@
                                         <option value="Likas">Likas</option>
                                         <option value="Kota Kinabalu">Kota Kinabalu</option>
                                     </select>
-                                   <input type="time" name="time" class="form-control" min="05:00" max="21:00" required><br/>
+                                   <input type="time"  name="time" class="form-control" min="<%= LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) %>" max="21:00" required><br/>
                                    <% if(request.getParameter("error") != null) { %>
                                    <p style="color: red;">You cannot choose two same locations!</p>
                                    <%}%>
